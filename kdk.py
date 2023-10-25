@@ -3,20 +3,36 @@
 ## D(dt) = (x_t, v_t) --> (x_t+1, v_t)
 import numpy as np
 
-def kick(paticle_data, dt):
-    """ inp"""
-    acc = gforce(particle_data)/particle_data[7]
-    particle_data[3:6] += acc*dt
+def kick(particle_data, dt):
+    """
+        Input is a single particle dictionary. expects the keys 'position', 'momentum', and 'mass'.
+        Kicks the particles momentum one step forward. 
+        K(dt/2) = (x_t, v_t) --> (x_t, v_t+1) 
+      
+      """
+    acc = gforce(particle_data["id"])/particle_data["mass"]
+    particle_data["momentum"] += acc*dt
     return particle_data
 
 
 def drift(paticle_data, dt):
-    """ inp"""
-    acc = gforce(particle_data)/particle_data[7]
-    particle_data[0:3] += particle_data[3:6]*dt
+    """
+        Input is a single particle dictionary. expects the keys 'position', 'momentum', and 'mass'.
+        Drifts the particles position one step forward. 
+        K(dt/2) = (x_t, v_t) --> (x_t, v_t+1) 
+      
+        """
+    acc = gforce(particle_data["id"])/particle_data["mass"]
+    particle_data["position"] += particle_data["position"]*dt
     return particle_data
 
 def kdk(particle_data, dt):
+    """
+        Input is a single particle dictionary. expects the keys 'position', 'momentum', and 'mass'.
+        Drifts and kicks the particles position one step forward. 
+        (x_t, v_t) --> (x_t+1, v_t+1)
+
+    """
     particle_data = kick(particle_data, dt/2)
     particle_data = drift(particle_data, dt)
     particle_data = kick(particle_data, dt/2)
