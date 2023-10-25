@@ -13,15 +13,14 @@ particle_data = np.random.rand(num_particles, 6)
 
 # Function to compute gravitational force between two particles
 def gforce(particle1, particle2):
-    r = particle2[:3] - particle1[:3]  # Position components in parsecs
+    r = particle2["position"] - particle1["position"]  # Position components in parsecs
     distance = np.linalg.norm(r) 
     if distance < softening:
-        force_magnitude = G * (particle1[6] * particle2[6]) / (distance +softening)** 3 #Be careful! If you need the magnitude of force you have to edit this!
+        force_magnitude = G * (particle1["mass"] * particle2["mass"]) / (distance +softening)** 3 #Be careful! If you need the magnitude of force you have to edit this!
     else:
         force_magnitude = G * (particle1[6] * particle2[6]) / (distance)**3
     force = force_magnitude * r
     return force
-
 
 # Loop through all pairs of particles
 def total_force_on_particle(particle_index, particle_data):
