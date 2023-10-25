@@ -34,7 +34,7 @@ def drift(particle_data, dt):
       
         """
     # acc = gforce(particle_data["id"])/particle_data["mass"]
-    particle_data["position"] += particle_data["position"]*dt
+    particle_data["position"] += particle_data["momentum"]*dt
     return particle_data
 
 def kdk(particle_data, acc, dt):
