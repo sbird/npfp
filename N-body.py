@@ -15,7 +15,7 @@ def generate_particle_info(N):
 
         particle_info = {
             "id": particle_id,
-            "Position": position,
+            "position": position,
             "momentum": velocity
         }
         # put the prticle info into a general dictionary
