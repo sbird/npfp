@@ -1,4 +1,4 @@
-"""A test case for the force calculation"""
+"""A test case for the force calculation that checks against a known solution"""
 import numpy as np
 from force import *
 
