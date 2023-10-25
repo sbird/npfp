@@ -9,6 +9,7 @@ def generate_particle_info(N):
     ids = np.arange(N)
 
     particle_data = {}
+    '''defining a general dictionary to have all particle info in one'''
 
     for i, particle_id in enumerate(ids):
         position = pos[i]
