@@ -22,12 +22,12 @@ def gforce(particle1, particle2):
     force = force_magnitude * r
     return force
 
-# Initialize the total force on each particle to zero
-total_forces = np.zeros((num_particles, 3))
+
 # Loop through all pairs of particles
-for i in range(num_particles):
-    for j in range(num_particles):
-        if i != j:
-            # Compute the gravitational force between particle i and particle j
-            force = gforce(particle_data[i], particle_data[j])
-            total_forces[i] += force
+def total_force_on_particle(particle_index, particle_data):
+    total_force = np.zeros(3) # Initialize the total force on each particle to zero
+    for i in range(len(particle_data)):
+        if i != particle_index:
+            force = gforce(particle_data[particle_index], particle_data[i])
+            total_force += force
+    return total_force
