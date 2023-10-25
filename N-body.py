@@ -1,13 +1,14 @@
 import numpy as np
 
-
 def generate_particle_info(N):
-    '''to generate values for position and velocity of particels
-    form gaussian distribution'''
+    '''to generate values for position and velocity of particles
+    from a Gaussian distribution'''
     pos = np.random.randn(N, 3)
     vel = np.random.randn(N, 3)
 
     ids = np.arange(N)
+
+    particle_data = {}
 
     for i, particle_id in enumerate(ids):
         position = pos[i]
@@ -15,11 +16,12 @@ def generate_particle_info(N):
 
         particle_info = {
             "id": particle_id,
-            "position": position,
+            "Position": position,
             "momentum": velocity
         }
-        # put the prticle info into a general dictionary
-        particle_data = {particle_id: particle_info}
 
-        print(particle_data)
-        #print("---")
+        particle_data[particle_id] = particle_info
+
+    return particle_data
+
+
