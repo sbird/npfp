@@ -8,7 +8,7 @@ softening = 0.1  # Softening length to prevent singularities
 # num_steps = 100  # Number of simulation steps
 
 # Generate random initial positions and velocities in a single 6-array
-particle_data = np.random.rand(num_particles, 6)
+# particle_data = np.random.rand(num_particles, 6)
 #uniform distribution
 
 # Function to compute gravitational force between two particles
@@ -18,7 +18,7 @@ def gforce(particle1, particle2):
     if distance < softening:
         force_magnitude = G * (particle1["mass"] * particle2["mass"]) / (distance +softening)** 3 #Be careful! If you need the magnitude of force you have to edit this!
     else:
-        force_magnitude = G * (particle1[6] * particle2[6]) / (distance)**3
+        force_magnitude = G * (particle1["mass"] * particle2["mass"]) / (distance)**3
     force = force_magnitude * r
     return force
 
