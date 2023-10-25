@@ -22,7 +22,7 @@ def drift(paticle_data, dt):
         K(dt/2) = (x_t, v_t) --> (x_t, v_t+1) 
       
         """
-    acc = gforce(particle_data["id"])/particle_data[]
+    acc = gforce(particle_data["id"])/particle_data["mass"]
     particle_data["position"] += particle_data["position"]*dt
     return particle_data
 
