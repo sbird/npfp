@@ -17,9 +17,20 @@ def gforce(particle1, particle2):
 
 # Loop through all pairs of particles
 def total_force_on_particle(particle_index, particle_data):
+    '''
+    This function gives the total force on one particle
+    '''
     total_force = np.zeros(3) # Initialize the total force on each particle to zero
     for i in range(len(particle_data)):
         if i != particle_index:
             force = gforce(particle_data[particle_index], particle_data[i])
             total_force += force
     return total_force
+
+
+def acceleration(particle_index, particle_data):
+    '''
+    This funciton gives the acceleration vector for one particle
+    '''
+    acc = total_force_on_particle(particle_index, particle_data) / particle_data[particle_index]["mass"]
+    return acc

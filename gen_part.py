@@ -5,6 +5,7 @@ def generate_particle_info(N):
     from a Gaussian distribution'''
     pos = np.random.randn(N, 3)
     vel = np.random.randn(N, 3)
+    # masses = np.ones(N)
 
     ids = np.arange(N)
 
@@ -17,8 +18,9 @@ def generate_particle_info(N):
 
         particle_info = {
             "id": particle_id,
-            "Position": position,
-            "momentum": velocity
+            "position": position,
+            "momentum": velocity,
+            "mass": 1
         }
 
         particle_data[particle_id] = particle_info

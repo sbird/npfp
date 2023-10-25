@@ -1,13 +1,15 @@
 import numpy as np
 
 
-def get_mean_ip_dist():
+def get_mean_ip_dist(part_data):
 	'''
 	This funciton is to obtain the mean interparticle distance between the particles
 	'''
-	pos_x = 
-	pos_y = 
-	pos_z = 
+	pos_ar = np.array([part_data[pid]["position"] for pid in part_data.keys()])
+	# print(pos_ar)
+	pos_x = pos_ar[:, 0]
+	pos_y = pos_ar[:, 1]
+	pos_z = pos_ar[:, 2]
 	dist_sum = 0 #This is the variable for sum of all distances
 	for i in range(len(pos_x)):
 		'''
@@ -18,19 +20,23 @@ def get_mean_ip_dist():
 	num_pairs = num_part * ( num_part - 1 ) / 2
 	return dist_sum/num_pairs #this is the mean distance
 
-ipart_dist = get_mean_ip_dist(part_data) #This line needs to go into main
+# ipart_dist = get_mean_ip_dist(part_data) #This line needs to go into main
 
-def get_timestep(part_data, c=1):
+def get_timestep(ipd, acc,c=1):
     """
     Args:
+    acc: this has to be all particles
     c: This is a constant that we need to vary to check convergence
 
     Returns:
     The timestep for next iteration of KDK
     """
-    acc = #Decide on how to input acceleration
-    dt = c * np.sqrt(np.mean(ipart_dist) / min(acc))  # This is the relation for timestep
-    return
+    acc_mag = np.linalg.norm(acc, axis = 1)
+    assert np.shape(acc_mag) != 3
+    # print(acc_mag)
+    # acc = 1#Decide on how to input acceleration
+    dt = c * np.sqrt(np.mean(ipd) / max(acc_mag))  # This is the relation for timestep
+    return dt
 
 
 def check_convergence():
