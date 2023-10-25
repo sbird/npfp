@@ -24,5 +24,3 @@ def generate_particle_info(N):
         particle_data[particle_id] = particle_info
 
     return particle_data
-
-
