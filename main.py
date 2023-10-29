@@ -6,8 +6,9 @@ from kdk import kdk
 from time_step import get_mean_ip_dist, get_timestep
 
 tmax = 13.8 #Gyr
+steps = 50
+N = 3
 
-N = 5
 part_data = generate_particle_info(N) #This is a dictionary of initial nested dictionary with each particle that can be accesses by id
 # print(part_data.keys())
 for pid in part_data.keys():
@@ -26,18 +27,25 @@ def plot_xy(part_data, alpha):
     return None
 
 
-i = 1
+
+i = 0
+plot_xy(part_data, alpha=1)
 
 #this loop is for timesteps
-while i == 1:
+while True:
     # acc_all_part = np.zeros((N, 3)) #This is (N, 3) array of all particles' accelerations
     # acc_dict = {}
-    plot_xy(part_data, alpha = 0.3)
+    
     acc_ar = np.array([acceleration(pid, part_data) for pid in part_data.keys()]) #this is the (N,3) array of accelerations
-    dt = get_timestep(ipd, acc_ar) #this is the timestep for next iteration
+    dt = get_timestep(ipd, acc_ar, c=0.07) #this is the timestep for next iteration
     for pid in part_data.keys():
         part_data[pid] = kdk(part_data[pid], acc_ar[pid], dt) #!!! update the index of acc_ar later  
-    plot_xy(part_data, alpha = 1)
-    plt.show()
-    i = 0
+    plot_xy(part_data, alpha = 1-i/steps)
+    i += 1
+    print("Time:", i)
+    print(part_data[pid]["position"])
+    print(part_data[pid]["position"][0]+ part_data[pid]["momentum"][0]*dt + 0.5*acceleration(pid, part_data)[0]*(dt**2))
+    if i >= steps:
+        break
 
+plt.show()

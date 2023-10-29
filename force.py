@@ -1,6 +1,6 @@
 import numpy as np
 # Define the gravitational constant (G) in the specified units
-G = 1.0  # Solar mass * parsec^3 / year^2
+G = 6.6e-11  # Units: SI
 num_particles = 100  # Number of particles
 softening = 0.1  # Softening length to prevent singularities
 
