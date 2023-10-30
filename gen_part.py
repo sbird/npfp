@@ -19,7 +19,7 @@ def generate_particle_info(N):
         particle_info = {
             "id": particle_id,
             "position": position,
-            "momentum": velocity,
+            "momentum": np.zeros(3), #FIXME! Make this not zero!
             "mass": 1
         }
 
