@@ -8,7 +8,7 @@ import matplotlib.animation as animation
 
 tmax = 13.8 #Gyr
 steps = 50
-N = 10
+N = 100
 
 # part_data = generate_particle_info(N) #This is a dictionary of initial nested dictionary with each particle that can be accesses by id
 # print(part_data.keys())

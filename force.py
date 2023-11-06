@@ -1,6 +1,7 @@
 import numpy as np
 # Define the gravitational constant (G) in the specified units
-G = 6.6e-11  # Units: SI
+#G = 6.6e-11  # Units: SI
+G = 1
 num_particles = 100  # Number of particles
 softening = 0.1  # Softening length to prevent singularities
 
