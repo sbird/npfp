@@ -20,4 +20,4 @@ jobs:
         pip install pylint numpy matplotlib
     - name: Analysing the code with pylint
       run: |
-        pylint -E --disable $(git ls-files '*.py')
+        pylint -E $(git ls-files '*.py')
