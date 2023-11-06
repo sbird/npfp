@@ -24,10 +24,8 @@ def generate_particle_info(N):
         }
 
         particle_data[particle_id] = particle_info
-
-    return particle_data
-
-
+    print(particle_data)
+   
 def gen_particle_plummer(N):
     X1 = np.random.uniform(size=N)
     r = np.power(np.power(X1, -2/3)-1, -0.5)
@@ -38,7 +36,7 @@ def gen_particle_plummer(N):
     x = np.power(r**2 - z**2, 1/2) * np.cos(2*np.pi*X3)
     y = (r**2 - z**2)**(0.5) * np.sin(2*np.pi*X3)
 
-    velocities = np.array([])
+    velocities = []
     i = 0
     while len(velocities)<N:
 
@@ -51,10 +49,26 @@ def gen_particle_plummer(N):
             w = (1-2*X6) * V
             u = (V**2 - w**2)**(1/2) * np.cos(2 * np.pi * X7)
             v = (V**2 - w**2)**(1/2) * np.sin(2 * np.pi * X7)
-            velocities = np.append(velocities, np.array([u, v, w]))
+            velocities.append([u, v, w])
             i +=1 
+    velocities = np.array(velocities)
     
-    print(velocities)
+    ids = np.arange(N)
 
+    particle_data = {}
+    '''defining a general dictionary to have all particle info in one'''
 
-gen_particle_plummer(3)
+    for i, particle_id in enumerate(ids):
+
+        particle_info = {
+            "id": particle_id,
+            "position": np.array([x[i], y[i], z[i]]),
+            "momentum": velocities[i],
+            "mass": 1
+        }
+
+        particle_data[particle_id] = particle_info
+    # print(particle_data)
+    return particle_data
+
+# gen_particle_plummer(1)

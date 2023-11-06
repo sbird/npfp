@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from gen_part import generate_particle_info
+from gen_part import generate_particle_info, gen_particle_plummer
 from force import acceleration
 from kdk import kdk
 from time_step import get_mean_ip_dist, get_timestep
@@ -10,8 +10,9 @@ tmax = 13.8 #Gyr
 steps = 50
 N = 10
 
-part_data = generate_particle_info(N) #This is a dictionary of initial nested dictionary with each particle that can be accesses by id
+# part_data = generate_particle_info(N) #This is a dictionary of initial nested dictionary with each particle that can be accesses by id
 # print(part_data.keys())
+part_data = gen_particle_plummer(N)
 
 ipd = get_mean_ip_dist(part_data) #This is the mean interparticle distance
 # print(ipd)
