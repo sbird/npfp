@@ -16,6 +16,8 @@ class Book:
     self.published_year = 0
     self.number of times borrowed = int
     self.ISBN-13 = string
+    def __init__(self):
+        """Initialises the class"""
 
     def borrow_a_book(self):
         self.number of times borrowed += 1
