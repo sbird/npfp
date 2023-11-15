@@ -55,6 +55,7 @@ class OctreeNode:
         for index in range(8):
             #The bitshifting tricks are why binary trees are more convenient!
             #The idea is that each index can shift a different axis by 1/2 a step.
+            #FIXME We do not understand how this works! It gives us an error of unsupported operator (& for float and int) when run separately. 
             new_center = self.center + ((-0.5 + (index >> i) & 1) * self.size / 4 for i in range(3))
             self.children.append(OctreeNode(new_center, self.size/2))
 

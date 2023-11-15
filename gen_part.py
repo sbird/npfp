@@ -25,7 +25,7 @@ def generate_particle_info(N):
 
         particle_data[particle_id] = particle_info
     print(particle_data)
-   
+    
 def gen_particle_plummer(N):
     X1 = np.random.uniform(size=N)
     r = np.power(np.power(X1, -2/3)-1, -0.5)
