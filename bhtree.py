@@ -45,6 +45,9 @@ class OctreeNode:
             if  grav_bound(particle, particle2, b)  is True:
                 if distances[distances_sorted_args[0]]<mean/100 and distances[distances_sorted_args[1]]>2*distances[distances_sorted_args[0]]:
                     self.particles[distances_sorted_args[0]]['mass'] += particle["mass"]
+                    self.particles[distances_sorted_args[0]]['position'] = (particle["position"]* particle["mass"]+  self.particles[distances_sorted_args[0]]['position'] * self.particles[distances_sorted_args[0]]['mass']) /( particle["mass"]+ self.particles[distances_sorted_args[0]]['mass'])
+                    self.particles[distances_sorted_args[0]]['velocity'] = (particle["velocity"]* particle["mass"]+  self.particles[distances_sorted_args[0]]['velocity'] * self.particles[distances_sorted_args[0]]['mass']) /( particle["mass"]+ self.particles[distances_sorted_args[0]]['mass'])
+                
                     return True
                 else:
                     return False
@@ -80,6 +83,7 @@ class OctreeNode:
         new_com = (self.com * self.mass + particle['position'] * particle['mass']) / (self.mass + particle['mass'])
         self.com = new_com
         self.mass += particle['mass']
+    
 
     def compute_total_force_tree(self, part, theta0):
         """Find the total force from all particles in this section of the tree, recursively."""
