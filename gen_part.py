@@ -19,7 +19,7 @@ def generate_particle_info(N):
         particle_info = {
             "id": particle_id,
             "position": position,
-            "momentum": np.zeros(3), #FIXME! Make this not zero!
+            "velocity": np.zeros(3), #FIXME! Make this not zero!
             "mass": 1
         }
 
@@ -63,7 +63,7 @@ def gen_particle_plummer(N):
         particle_info = {
             "id": particle_id,
             "position": np.array([x[i], y[i], z[i]]),
-            "momentum": velocities[i],
+            "velocity": velocities[i],
             "mass": 1
         }
 

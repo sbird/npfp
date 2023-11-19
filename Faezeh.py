@@ -12,7 +12,7 @@ N = 3
 part_data = generate_particle_info(N) #This is a dictionary of initial nested dictionary with each particle that can be accesses by id
 # print(part_data.keys())
 for pid in part_data.keys():
-    part_data[pid]['momentum'] = np.zeros(3)
+    part_data[pid]['velocity'] = np.zeros(3)
 
 ipd = get_mean_ip_dist(part_data) #This is the mean interparticle distance
 # print(ipd)
@@ -44,7 +44,7 @@ while True:
     i += 1
     print("Time:", i)
     print(part_data[pid]["position"])
-    print(part_data[pid]["position"][0]+ part_data[pid]["momentum"][0]*dt + 0.5*acceleration(pid, part_data)[0]*(dt**2))
+    print(part_data[pid]["position"][0]+ part_data[pid]["velocity"][0]*dt + 0.5*acceleration(pid, part_data)[0]*(dt**2))
     if i >= steps:
         break
 

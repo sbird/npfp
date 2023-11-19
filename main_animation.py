@@ -8,7 +8,7 @@ import matplotlib.animation as animation
 
 tmax = 13.8 #Gyr
 steps = 50
-N = 100
+N = 10
 
 # part_data = generate_particle_info(N) #This is a dictionary of initial nested dictionary with each particle that can be accesses by id
 # print(part_data.keys())
@@ -47,7 +47,7 @@ ani = animation.FuncAnimation(fig=fig, func=update, frames=4, interval=70)
     # i += 1
     # print("Time:", i)
     # print(part_data[pid]["position"])
-    # print(part_data[pid]["position"][0]+ part_data[pid]["momentum"][0]*dt + 0.5*acceleration(pid, part_data)[0]*(dt**2))
+    # print(part_data[pid]["position"][0]+ part_data[pid]["velocity"][0]*dt + 0.5*acceleration(pid, part_data)[0]*(dt**2))
     # if i >= steps:
     #     break
 

@@ -6,40 +6,40 @@ import numpy as np
 
 # def kick(particle_data, dt):
 #     """
-#         Input is a single particle dictionary. expects the keys 'position', 'momentum', and 'mass'.
-#         Kicks the particles momentum one step forward. 
+#         Input is a single particle dictionary. expects the keys 'position', 'velocity', and 'mass'.
+#         Kicks the particles velocity one step forward. 
 #         K(dt/2) = (x_t, v_t) --> (x_t, v_t+1) 
       
 #       """
 #     # acc = gforce(particle_data["id"])/particle_data["mass"]
-#     particle_data["momentum"] += acc*dt
+#     particle_data["velocity"] += acc*dt
 #     return particle_data
 
 def kick(particle_data, acc, dt):
     """
-        Input is a single particle dictionary. expects the keys 'position', 'momentum', and 'mass'.
-        Kicks the particles momentum one step forward. 
+        Input is a single particle dictionary. expects the keys 'position', 'velocity', and 'mass'.
+        Kicks the particles velocity one step forward. 
         K(dt/2) = (x_t, v_t) --> (x_t, v_t+1) 
       [PS]: updating it with acc as input to the code
       """
-    particle_data["momentum"] += acc*dt
+    particle_data["velocity"] += acc*dt
     return particle_data
 
 
 def drift(particle_data, dt):
     """
-        Input is a single particle dictionary. expects the keys 'position', 'momentum', and 'mass'.
+        Input is a single particle dictionary. expects the keys 'position', 'velocity', and 'mass'.
         Drifts the particles position one step forward. 
         K(dt/2) = (x_t, v_t) --> (x_t, v_t+1) 
       
         """
     # acc = gforce(particle_data["id"])/particle_data["mass"]
-    particle_data["position"] += particle_data["momentum"]*dt
+    particle_data["position"] += particle_data["velocity"]*dt
     return particle_data
 
 def kdk(particle_data, acc, dt):
     """
-        Input is a single particle dictionary. expects the keys 'position', 'momentum', and 'mass'.
+        Input is a single particle dictionary. expects the keys 'position', 'velocity', and 'mass'.
         Drifts and kicks the particles position one step forward. 
         (x_t, v_t) --> (x_t+1, v_t+1)
 
