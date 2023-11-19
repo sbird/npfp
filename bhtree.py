@@ -18,10 +18,10 @@ class OctreeNode:
     def insert_particle(self, particle, mean):
         """Add a particle to the tree. Subdivide current node if necessary."""
         #Need to keep moments up to date!
-        self.check_merg(particle, mean)
         self.update_mass_and_com(particle)
         #Add the particle if a non-full leaf node
         if self.is_leaf and len(self.particles) < 8:
+            self.check_merg(particle, mean)
             self.particles.append(particle)
             return
         # If it's not a leaf node, or full,
@@ -31,6 +31,7 @@ class OctreeNode:
             #Need to re-attach all children.
             for p in self.particles:
                 child = self.find_child_node(p["position"])
+                self.check_merg(particle, mean)
                 self.children[child].insert_particle(p)
             self.particles = []
             self.is_leaf = False
