@@ -2,6 +2,7 @@
 
 import numpy as np
 from force import gforce
+from binary import *
 
 class OctreeNode:
     """This is a single node of the OctTree. These nodes will have child nodes."""
@@ -34,7 +35,17 @@ class OctreeNode:
             self.is_leaf = False
         child = self.find_child_node(particle["position"])
         self.children[child].insert_particle(particle)
-
+        
+    def check_merg(self, ):
+    lambda close p: spatial(particle, p)
+    	close(self.particle)
+  	for particle2 in self.particles:
+    		if  grav_bound(particle, particle2, b)  is True:
+    			close(
+    			
+    			continue
+    spatial(particle, particle2)
+    
     def particle_in_node(self, particle_pos):
         """Check whether a particle is inside the volume covered by a node,
         by checking whether each dimension is close enough to center (L1 metric)."""
