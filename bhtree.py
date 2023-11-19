@@ -15,9 +15,10 @@ class OctreeNode:
         self.is_leaf = True
         self.particles = []  # Particles contained in this node (if it's a leaf)
 
-    def insert_particle(self, particle):
+    def insert_particle(self, particle, mean):
         """Add a particle to the tree. Subdivide current node if necessary."""
-        #Need to keep moments up to date!Hi
+        #Need to keep moments up to date!
+        self.check_merg(particle, mean)
         self.update_mass_and_com(particle)
         #Add the particle if a non-full leaf node
         if self.is_leaf and len(self.particles) < 8:
@@ -36,15 +37,18 @@ class OctreeNode:
         child = self.find_child_node(particle["position"])
         self.children[child].insert_particle(particle)
         
-    def check_merg(self, ):
-    lambda close p: spatial(particle, p)
-    	close(self.particle)
-  	for particle2 in self.particles:
-    		if  grav_bound(particle, particle2, b)  is True:
-    			close(
+    def check_merg(self, particle, mean):
+        distances =	[spatial(particle, particle2) for particle2 in self.particles]
+        distances_sorted_args = np.argsort(distances)
+        for particle2 in self.particles[distances_sorted_args]:
+            if  grav_bound(particle, particle2, b)  is True:
+                if distances[distances_sorted_args[0]]<mean/100 and distances[distances_sorted_args[1]]>2*distances[distances_sorted_args[0]]:
+                    self.particles[distances_sorted_args[0]]['mass'] += particle["mass"]
+                    return True
+                else:
+                    return False
+
     			
-    			continue
-    spatial(particle, particle2)
     
     def particle_in_node(self, particle_pos):
         """Check whether a particle is inside the volume covered by a node,

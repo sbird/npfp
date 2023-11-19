@@ -8,11 +8,7 @@ def spatial(particle1,particle2,mean):
 
     '''
     r = np.linalg.norm(particle2["position"] - particle1["position"])  
-
-    if r < mean/100:
-        return True
-    else:
-        return False
+    return r
 
     
 def grav_bound(particle1,particle2,b):
