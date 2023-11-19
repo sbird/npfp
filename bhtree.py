@@ -16,7 +16,7 @@ class OctreeNode:
 
     def insert_particle(self, particle):
         """Add a particle to the tree. Subdivide current node if necessary."""
-        #Need to keep moments up to date!
+        #Need to keep moments up to date!Hi
         self.update_mass_and_com(particle)
         #Add the particle if a non-full leaf node
         if self.is_leaf and len(self.particles) < 8:
