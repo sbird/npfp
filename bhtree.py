@@ -39,15 +39,21 @@ class OctreeNode:
         self.children[child].insert_particle(particle)
         
     def check_merg(self, particle, mean):
+        # Calculate distances between the new particle and each existing particle in the node
         distances =	[spatial(particle, particle2) for particle2 in self.particles]
+        # Sort the distances 
         distances_sorted_args = np.argsort(distances)
+        # Iterate through the particles in order of increasing distance
         for particle2 in self.particles[distances_sorted_args]:
+            # Check if the particles are gravitationally bound using the grav_bound function
             if  grav_bound(particle, particle2, b)  is True:
+                 # If certain distance conditions are met, merge the particles
                 if distances[distances_sorted_args[0]]<mean/100 and distances[distances_sorted_args[1]]>2*distances[distances_sorted_args[0]]:
+                    # Merge the particles by updating mass, position, and velocity
                     self.particles[distances_sorted_args[0]]['mass'] += particle["mass"]
                     self.particles[distances_sorted_args[0]]['position'] = (particle["position"]* particle["mass"]+  self.particles[distances_sorted_args[0]]['position'] * self.particles[distances_sorted_args[0]]['mass']) /( particle["mass"]+ self.particles[distances_sorted_args[0]]['mass'])
                     self.particles[distances_sorted_args[0]]['velocity'] = (particle["velocity"]* particle["mass"]+  self.particles[distances_sorted_args[0]]['velocity'] * self.particles[distances_sorted_args[0]]['mass']) /( particle["mass"]+ self.particles[distances_sorted_args[0]]['mass'])
-                
+                    # Return True to indicate a merge occurred
                     return True
                 else:
                     return False
