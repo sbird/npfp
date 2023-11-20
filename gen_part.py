@@ -9,10 +9,10 @@ def generate_particle_info(N):
 
     ids = np.arange(N)
 
-    particle_data = {}
+    particle_data = {} # outer dictionary
     '''defining a general dictionary to have all particle info in one'''
 
-    for i, particle_id in enumerate(ids):
+    for i, particle_id in enumerate(ids): #ids for each of the particles
         position = pos[i]
         velocity = vel[i]
 
@@ -21,22 +21,23 @@ def generate_particle_info(N):
             "position": position,
             "velocity": np.zeros(3), #FIXME! Make this not zero!
             "mass": 1
-        }
+        } # generates a small dict for each particle
 
-        particle_data[particle_id] = particle_info
+        particle_data[particle_id] = particle_info # adds the particle info dict to the particle data dict. Using id as keys
     print(particle_data)
     
 def gen_particle_plummer(N):
+    '''This function generates particle positions and velocities based on Plummer model: https://articles.adsabs.harvard.edu/pdf/1974A%26A....37..183A'''
     X1 = np.random.uniform(size=N)
-    r = np.power(np.power(X1, -2/3)-1, -0.5)
+    r = np.power(np.power(X1, -2/3)-1, -0.5) #calculates the radial distance based on plummer model. eq no. A2 of the paper.
     
-    X2 = np.random.uniform(size=N)
+    X2 = np.random.uniform(size=N) # generate more random numbers needed in plummer model for spherical coordinates calculations.
     X3 = np.random.uniform(size=N)
-    z = (1-2*X2)*r
+    z = (1-2*X2)*r #calculates cartesian coordinates based on plummer 
     x = np.power(r**2 - z**2, 1/2) * np.cos(2*np.pi*X3)
     y = (r**2 - z**2)**(0.5) * np.sin(2*np.pi*X3)
 
-    velocities = []
+    velocities = [] #velocity generation
     i = 0
     while len(velocities)<N:
 
@@ -46,7 +47,7 @@ def gen_particle_plummer(N):
             X6 = np.random.uniform()
             X7 = np.random.uniform()
             V = X4 * 2**(1/2) * (1 + r[i]**2)**(-1/4)
-            w = (1-2*X6) * V
+            w = (1-2*X6) * V #based on eq A6 of the paper.
             u = (V**2 - w**2)**(1/2) * np.cos(2 * np.pi * X7)
             v = (V**2 - w**2)**(1/2) * np.sin(2 * np.pi * X7)
             velocities.append([u, v, w])
@@ -71,4 +72,4 @@ def gen_particle_plummer(N):
     # print(particle_data)
     return particle_data
 
-# gen_particle_plummer(1)
+

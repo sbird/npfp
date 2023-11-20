@@ -7,6 +7,7 @@ def get_mean_ip_dist(part_data):
 	'''
 	pos_ar = np.array([part_data[pid]["position"] for pid in part_data.keys()])
 	# print(pos_ar)
+	#Extract positions of the particles
 	pos_x = pos_ar[:, 0]
 	pos_y = pos_ar[:, 1]
 	pos_z = pos_ar[:, 2]
@@ -36,7 +37,7 @@ def get_timestep(ipd, acc,c=1):
     # print(acc_mag)
     # acc = 1#Decide on how to input acceleration
     dt = c * np.sqrt(np.mean(ipd) / max(acc_mag))  # This is the relation for timestep
-    return dt
+    return dt #return timestep for the next iteration of kdk
 
 
 def check_convergence():
