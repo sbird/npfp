@@ -18,7 +18,7 @@ class OctreeNode:
     def insert_particle(self, particle, mean):
         """Add a particle to the tree. Subdivide current node if necessary."""
         #Need to keep moments up to date!
-        
+
         self.update_mass_and_com(particle)
         #Add the particle if a non-full leaf node
         if self.is_leaf and len(self.particles) < 8:
@@ -38,13 +38,13 @@ class OctreeNode:
             self.is_leaf = False
         child = self.find_child_node(particle["position"])
         self.children[child].insert_particle(particle, mean)
-        
+
     def check_merg(self, particle, mean):
         # Calculate distances between the new particle and each existing particle in the node
         if len(self.particles)<1:
             return
         distances =	[spatial(particle, particle2, mean) for particle2 in self.particles]
-        # Sort the distances 
+        # Sort the distances
         distances_sorted_args = np.argsort(distances)
         # Iterate through the particles in order of increasing distance
         for particle2 in np.array(self.particles)[distances_sorted_args]:
@@ -61,8 +61,8 @@ class OctreeNode:
                 else:
                     return False
 
-    			
-    
+
+
     def particle_in_node(self, particle_pos):
         """Check whether a particle is inside the volume covered by a node,
         by checking whether each dimension is close enough to center (L1 metric)."""
@@ -92,7 +92,7 @@ class OctreeNode:
         new_com = (self.com * self.mass + particle['position'] * particle['mass']) / (self.mass + particle['mass'])
         self.com = new_com
         self.mass += particle['mass']
-    
+
 
     def compute_total_force_tree(self, part, theta0):
         """Find the total force from all particles in this section of the tree, recursively."""
@@ -103,7 +103,9 @@ class OctreeNode:
             return gforce(part, nodedata)
         #If we are a leaf node, need to do forces for all particles
         if self.is_leaf:
-            return np.sum([gforce(part, p) for p in self.particles])
+            if len(self.particles) == 0:
+                return np.zeros(3)
+            return np.sum(np.array([gforce(part, p) for p in self.particles]), axis=0)
         #Otherwise recursively compute the force for the children
         return np.sum([c.compute_total_force_tree(part, theta0) for c in self.children])
 

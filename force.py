@@ -9,6 +9,8 @@ softening = 0.1  # Softening length to prevent singularities
 def gforce(particle1, particle2):
     r = particle2["position"] - particle1["position"]  # Position components in parsecs
     distance = np.linalg.norm(r)
+    if distance == 0:
+        return np.zeros(3)
     if distance < softening:
         force_magnitude = G * (particle1["mass"] * particle2["mass"]) / (softening)** 3 #Be careful! If you need the magnitude of force you have to edit this!
     else:
