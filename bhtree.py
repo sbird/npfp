@@ -73,9 +73,7 @@ class OctreeNode:
 
     def find_child_node(self, particle_pos):
         """Find the index of the child within which the party belongs. There is a faster way to do this!"""
-        # print(self.children[0].center)
         for i, c in enumerate(self.children):
-            
             if c.particle_in_node(particle_pos):
                 return i
         raise ValueError("Particle is not in tree!")
