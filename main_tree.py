@@ -1,6 +1,11 @@
 from bhtree import OctreeNode, Octree
 from gen_part import gen_particle_plummer
 from time_step import get_mean_ip_dist
+import numpy as np
+import matplotlib.pyplot as plt
+from kdk import kdk
+from time_step import get_mean_ip_dist, get_timestep
+import matplotlib.animation as animation
 
 N = 100
 part_data = gen_particle_plummer(N)
@@ -22,18 +27,33 @@ def print_OctreeNode(node, depth = 0):
             print_OctreeNode(c, depth = depth + 1)
     return None
 
-print_OctreeNode(tree.root)
+# print_OctreeNode(tree.root)
 
 
 # Let us evolve the system now
 
 ipd = get_mean_ip_dist(part_data) #This is the mean interparticle distance
 
-# def update(i):
-#     acc_ar = np.array([acceleration(pid, part_data) for pid in part_data.keys()]) #this is the (N,3) array of accelerations
-#     dt = get_timestep(ipd, acc_ar, c=0.07) #this is the timestep for next iteration
-#     for pid in part_data.keys():
-#         part_data[pid] = kdk(part_data[pid], acc_ar[pid], dt) #!!! update the index of acc_ar later
-#     plot_xy(part_data, alpha=1)
-#     if i>100:
-#         return True
+def plot_xy(part_data, alpha):
+    # plt.figure()
+    pos_ar = np.array([part_data[pid]["position"] for pid in part_data.keys()])
+    pos_x = pos_ar[:, 0]
+    pos_y = pos_ar[:, 1]
+    plt.clf()
+    plt.plot(pos_x, pos_y, 'ko', alpha = alpha)
+    return None
+
+i = 0
+
+def update(i):
+    acc_ar = [tree.compute_total_force_tree(part)/part['mass'] for part in part_data.values()] #this is the (N,3) array of accelerations
+    dt = get_timestep(ipd, acc_ar, c=0.07) #this is the timestep for next iteration
+    for pid in part_data.keys():
+        part_data[pid] = kdk(part_data[pid], acc_ar[pid], dt) #!!! update the index of acc_ar later
+    plot_xy(part_data, alpha=1)
+    if i>100:
+        return True
+
+fig, ax = plt.subplots()
+ani = animation.FuncAnimation(fig=fig, func=update, frames=4, interval=70)
+plt.show()
