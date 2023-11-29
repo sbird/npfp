@@ -18,6 +18,7 @@ class OctreeNode:
     def insert_particle(self, particle, mean):
         """Add a particle to the tree. Subdivide current node if necessary."""
         #Need to keep moments up to date!
+        
         self.update_mass_and_com(particle)
         #Add the particle if a non-full leaf node
         if self.is_leaf and len(self.particles) < 8:
@@ -32,21 +33,23 @@ class OctreeNode:
             for p in self.particles:
                 child = self.find_child_node(p["position"])
                 self.check_merg(particle, mean)
-                self.children[child].insert_particle(p)
+                self.children[child].insert_particle(p, mean)
             self.particles = []
             self.is_leaf = False
         child = self.find_child_node(particle["position"])
-        self.children[child].insert_particle(particle)
+        self.children[child].insert_particle(particle, mean)
         
     def check_merg(self, particle, mean):
         # Calculate distances between the new particle and each existing particle in the node
-        distances =	[spatial(particle, particle2) for particle2 in self.particles]
+        if len(self.particles)<1:
+            return
+        distances =	[spatial(particle, particle2, mean) for particle2 in self.particles]
         # Sort the distances 
         distances_sorted_args = np.argsort(distances)
         # Iterate through the particles in order of increasing distance
-        for particle2 in self.particles[distances_sorted_args]:
+        for particle2 in np.array(self.particles)[distances_sorted_args]:
             # Check if the particles are gravitationally bound using the grav_bound function
-            if  grav_bound(particle, particle2, b)  is True:
+            if  grav_bound(particle, particle2, spatial(particle, particle, mean))  is True:
                  # If certain distance conditions are met, merge the particles
                 if distances[distances_sorted_args[0]]<mean/100 and distances[distances_sorted_args[1]]>2*distances[distances_sorted_args[0]]:
                     # Merge the particles by updating mass, position, and velocity
@@ -70,7 +73,9 @@ class OctreeNode:
 
     def find_child_node(self, particle_pos):
         """Find the index of the child within which the party belongs. There is a faster way to do this!"""
+        print(len(self.children))
         for i, c in enumerate(self.children):
+            
             if c.particle_in_node(particle_pos):
                 return i
         raise ValueError("Particle is not in tree!")
@@ -111,10 +116,12 @@ class Octree:
         #Opening angle
         self.theta0 = 0.3
 
-    def insert_particles(self, all_particles):
+    def insert_particles(self, all_particles, mean):
         """Add all particles to the tree and compute moments."""
-        for pp in all_particles:
-            self.root.insert_particle(pp)
+        for pp in all_particles.values():
+            self.root.insert_particle(pp, mean)
+            # print(self.root.particles, "\n")
+
 
     def compute_total_force_tree(self, part):
         """Compute the total force on a particle."""
