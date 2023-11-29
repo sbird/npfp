@@ -73,7 +73,7 @@ class OctreeNode:
 
     def find_child_node(self, particle_pos):
         """Find the index of the child within which the party belongs. There is a faster way to do this!"""
-        print(len(self.children))
+        # print(self.children[0].center)
         for i, c in enumerate(self.children):
             
             if c.particle_in_node(particle_pos):
@@ -85,8 +85,8 @@ class OctreeNode:
         for index in range(8):
             #The bitshifting tricks are why binary trees are more convenient!
             #The idea is that each index can shift a different axis by 1/2 a step.
-            offset = [-0.5 + ((index >> i) % 2)  * self.size / 2 for i in range(3)]
-            new_center = self.center + offset
+            offset = [(-0.5 + ((index >> i) % 2))  * self.size / 2 for i in range(3)]
+            new_center = np.array(self.center) + np.array(offset)
             self.children.append(OctreeNode(new_center, self.size/2))
 
     def update_mass_and_com(self, particle):
