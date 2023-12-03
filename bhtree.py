@@ -22,7 +22,8 @@ class OctreeNode:
         self.update_mass_and_com(particle)
         #Add the particle if a non-full leaf node
         if self.is_leaf and len(self.particles) < 8:
-            # self.check_merg(particle, mean)
+            if self.check_merg(particle, mean):
+                return
             self.particles.append(particle)
             return
         # If it's not a leaf node, or full,
@@ -32,7 +33,8 @@ class OctreeNode:
             #Need to re-attach all children.
             for p in self.particles:
                 child = self.find_child_node(p["position"])
-                # self.check_merg(particle, mean)
+                if self.check_merg(particle, mean):
+                    continue
                 self.children[child].insert_particle(p, mean)
             self.particles = []
             self.is_leaf = False
