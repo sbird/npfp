@@ -22,7 +22,9 @@ def kick(particle_data, acc, dt):
         K(dt/2) = (x_t, v_t) --> (x_t, v_t+1) 
       [PS]: updating it with acc as input to the code
       """
-    particle_data["velocity"] += acc*dt
+    # print("vel:", particle_data["velocity"])
+    # print("acc:", acc*dt) 
+    particle_data["velocity"] += np.array(acc*dt)
     return particle_data
 
 
@@ -47,5 +49,4 @@ def kdk(particle_data, acc, dt):
     particle_data = kick(particle_data, acc, dt/2)
     particle_data = drift(particle_data,dt)
     particle_data = kick(particle_data, acc, dt/2)
-
     return particle_data

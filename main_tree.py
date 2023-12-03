@@ -46,10 +46,14 @@ def plot_xy(part_data, alpha):
 i = 0
 
 def update(i):
+    tree = Octree([0,0,0], 100) # Initializing the Octree class 
+    tree.insert_particles(part_data, get_mean_ip_dist(part_data)) # Updating the tree
     acc_ar = [tree.compute_total_force_tree(part)/part['mass'] for part in part_data.values()] #this is the (N,3) array of accelerations
-    dt = get_timestep(ipd, acc_ar, c=0.07) #this is the timestep for next iteration
+    dt = get_timestep(ipd, acc_ar, c=0.0001) #this is the timestep for next iteration
     for pid in part_data.keys():
         part_data[pid] = kdk(part_data[pid], acc_ar[pid], dt) #!!! update the index of acc_ar later
+        # print(acc_ar[pid])
+
     plot_xy(part_data, alpha=1)
     if i>100:
         return True
