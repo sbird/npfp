@@ -96,7 +96,7 @@ class OctreeNode:
 
     def compute_total_force_tree(self, part, theta0):
         """Find the total force from all particles in this section of the tree, recursively."""
-        theta = self.size/ np.sqrt(np.sum(self.com - part["position"])**2)
+        theta = self.size/ np.linalg.norm(self.com - part["position"])
         #No need to open the node! We are done.
         if theta < theta0:
             nodedata = {"position" : self.com, "mass": self.mass}
