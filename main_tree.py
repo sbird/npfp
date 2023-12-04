@@ -56,15 +56,27 @@ def update(i):
     tree = Octree([0,0,0], 100) # Initializing the Octree class 
     tree.insert_particles(part_data, get_mean_ip_dist(part_data)) # Updating the tree
     # print_OctreeNode(tree.root)
-    acc_ar = [tree.compute_total_force_tree(part)/part['mass'] for part in part_data.values()] #this is the (N,3) array of accelerations
+    # print(part_data)
+    acc_ar = np.zeros(3)
+    for (pid, part) in (part_data.items()):
+        print(pid)
+        acc_this_part = tree.compute_total_force_tree(part)/part['mass'] #this is the len 3 array of accelerations
+        part_data[pid]['acc'] = acc_this_part
+        print('This part', acc_this_part)
+        print('Bigger array', acc_ar)
+        acc_ar = np.append(acc_ar, acc_this_part, axis = 1)
+        
+    acc_ar = np.delete(acc_ar, 0)
     dt = get_timestep(ipd, acc_ar, c=0.0001) #this is the timestep for next iteration
-
+    
     for pid in pid_ar:
-        part_data[pid] = kdk(part_data[pid], acc_ar[pid], dt) #!!! update the index of acc_ar later
+        print(np.where(pid_ar == pid))
+        part_data[pid] = kdk(part_data[pid], acc_ar[np.where(pid_ar == pid)], dt) #!!! update the index of acc_ar later
         pos = part_data[pid]['position']
         if any(np.abs(pos) > 50): #removing any particles that go outside the box
             part_data.pop(pid)
             pid_ar = np.delete(pid_ar, np.where(pid_ar == pid))
+            print(f'the length of pid array {len(pid_ar)}')
         # print(acc_ar[pid])
 
     plot_xy(part_data, alpha=1)

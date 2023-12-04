@@ -7,7 +7,7 @@ def generate_particle_info(N):
     vel = np.random.randn(N, 3)
     # masses = np.ones(N)
 
-    ids = np.arange(N)
+    ids = np.arange(0, N) 
 
     particle_data = {} # outer dictionary
     '''defining a general dictionary to have all particle info in one'''
