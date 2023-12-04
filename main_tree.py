@@ -9,7 +9,7 @@ import matplotlib.animation as animation
 
 N = 100
 part_data = gen_particle_plummer(N)
-tree = Octree([0,0,0], 100) # Initializing the Octree class 
+tree = Octree([0,0,0], 100) # Initializing the Octree class
 tree.insert_particles(part_data, get_mean_ip_dist(part_data)) # Making a tree with initial particles
 
 # let us try to print the tree now
@@ -48,35 +48,31 @@ def plot_xy(part_data, alpha):
 
 i = 0
 
-pid_ar = np.array(list(part_data.keys()), dtype = int)
-print(pid_ar)
-
 def update(i):
-    global pid_ar
-    tree = Octree([0,0,0], 100) # Initializing the Octree class 
+    tree = Octree([0,0,0], 100) # Initializing the Octree class
     tree.insert_particles(part_data, get_mean_ip_dist(part_data)) # Updating the tree
     # print_OctreeNode(tree.root)
     # print(part_data)
-    acc_ar = np.zeros(3)
-    for (pid, part) in (part_data.items()):
-        print(pid)
+    acc_ar = None
+    for (pid, part) in part_data.items():
         acc_this_part = tree.compute_total_force_tree(part)/part['mass'] #this is the len 3 array of accelerations
         part_data[pid]['acc'] = acc_this_part
-        print('This part', acc_this_part)
-        print('Bigger array', acc_ar)
-        acc_ar = np.append(acc_ar, acc_this_part, axis = 1)
-        
-    acc_ar = np.delete(acc_ar, 0)
+        acc_this_part = np.reshape(acc_this_part, (1,3))
+        if acc_ar is None:
+            acc_ar = acc_this_part
+        else:
+            acc_ar = np.concatenate([acc_ar, acc_this_part])
+    print('Bigger array', np.shape(acc_ar))
+
     dt = get_timestep(ipd, acc_ar, c=0.0001) #this is the timestep for next iteration
-    
-    for pid in pid_ar:
-        print(np.where(pid_ar == pid))
-        part_data[pid] = kdk(part_data[pid], acc_ar[np.where(pid_ar == pid)], dt) #!!! update the index of acc_ar later
+
+    pids = list(part_data.keys())
+    for pid in pids:
+        part_data[pid] = kdk(part_data[pid], part_data[pid]['acc'], dt) #!!! update the index of acc_ar later
         pos = part_data[pid]['position']
         if any(np.abs(pos) > 50): #removing any particles that go outside the box
             part_data.pop(pid)
-            pid_ar = np.delete(pid_ar, np.where(pid_ar == pid))
-            print(f'the length of pid array {len(pid_ar)}')
+            print(f'the length of pid array {len(part_data.keys())}')
         # print(acc_ar[pid])
 
     plot_xy(part_data, alpha=1)
