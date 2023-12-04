@@ -36,6 +36,7 @@ def drift(particle_data, dt):
       
         """
     # acc = gforce(particle_data["id"])/particle_data["mass"]
+    # print("vel:",particle_data["velocity"]*dt)
     particle_data["position"] += particle_data["velocity"]*dt
     return particle_data
 

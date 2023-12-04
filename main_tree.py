@@ -9,6 +9,7 @@ import matplotlib.animation as animation
 
 N = 100
 part_data = gen_particle_plummer(N)
+# part_data1 = part_data
 tree = Octree([0,0,0], 100) # Initializing the Octree class
 tree.insert_particles(part_data, get_mean_ip_dist(part_data)) # Making a tree with initial particles
 
@@ -41,8 +42,8 @@ def plot_xy(part_data, alpha):
     pos_y = pos_ar[:, 1]
     plt.clf()
     plt.plot(pos_x, pos_y, 'ko', alpha = alpha)
-    plt.xlim(-50, 50)
-    plt.ylim(-50, 50)
+    # plt.xlim(-50, 50)
+    # plt.ylim(-50, 50)
     plt.tight_layout()
     return None
 
@@ -62,9 +63,9 @@ def update(i):
             acc_ar = acc_this_part
         else:
             acc_ar = np.concatenate([acc_ar, acc_this_part])
-    print('Bigger array', np.shape(acc_ar))
+    # print('Bigger array', np.shape(acc_ar), acc_ar)
 
-    dt = get_timestep(ipd, acc_ar, c=0.0001) #this is the timestep for next iteration
+    dt = get_timestep(ipd, acc_ar, c=0.1) #this is the timestep for next iteration
 
     pids = list(part_data.keys())
     for pid in pids:
@@ -74,11 +75,11 @@ def update(i):
             part_data.pop(pid)
             print(f'the length of pid array {len(part_data.keys())}')
         # print(acc_ar[pid])
-
+    print(len(part_data.keys()))
     plot_xy(part_data, alpha=1)
     if i>100:
         return True
 
-fig, ax = plt.subplots()
+fig, ax = plt.subplots(figsize = (5, 5))
 ani = animation.FuncAnimation(fig=fig, func=update, frames=4, interval=70)
 plt.show()

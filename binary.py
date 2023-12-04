@@ -19,11 +19,11 @@ def grav_bound(particle1,particle2,b):
     THIS ASSUMES G IN SI UNITS
     '''
     c = 3e8 #m/s
-    G = 6.6e-11
+    G = 1
     m1 = particle1['mass']
     m2 = particle2['mass']
     m = max(m1, m2) #because we want the biggest sch radius (anything inside sch rad won't survive).
-    assert np.isclose(G, 6.67e-11), "Check units of G"
+    assert np.isclose(G, 1), "Check units of G"
 
 
     v1 = particle1['velocity']/m1 
