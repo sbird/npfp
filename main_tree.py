@@ -37,19 +37,6 @@ def plot_xy(part_data, alpha):
     return None
 
 
-N = 100
-boxsize = 50 #This is the boxsize
-part_data = gen_particle_plummer(N) #this line generates the particles
-tree = Octree([0,0,0], boxsize) # Initializing the Octree class
-tree.insert_particles(part_data, get_mean_ip_dist(part_data)) # Making a tree with initial particles
-
-# Let us evolve the system now
-
-ipd = get_mean_ip_dist(part_data) #This is the mean interparticle distance
-
-
-
-i = 0
 
 def update(i):
     tree = Octree([0,0,0], boxsize) # Initializing the Octree class
@@ -80,6 +67,25 @@ def update(i):
         return True
 
 
+
+N = 100
+boxsize = 50 #This is the boxsize
+part_data = gen_particle_plummer(N) #this line generates the particles
+tree = Octree([0,0,0], boxsize) # Initializing the Octree class
+tree.insert_particles(part_data, get_mean_ip_dist(part_data)) # Making a tree with initial particles
+
+# Let us evolve the system now
+
+ipd = get_mean_ip_dist(part_data) #This is the mean interparticle distance
+
+
+
+
+
+
+
+i = 0
+t = 0
 plt.style.use('dark_background')
 fig, ax = plt.subplots(figsize = (5, 5))
 ax.set_xlabel('x (kpc)')
