@@ -3,7 +3,7 @@ import numpy as np
 # G = 6.6e-11  # Units: SI
 G = 1
 num_particles = 100  # Number of particles
-softening = 0.1  # Softening length to prevent singularities
+softening = 0.01  # Softening length to prevent singularities
 
 # Function to compute gravitational force between two particles
 def gforce(particle1, particle2):
