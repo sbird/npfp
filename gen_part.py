@@ -64,7 +64,7 @@ def gen_particle_plummer(N):
         particle_info = {
             "id": particle_id,
             "position": np.array([x[i], y[i], z[i]]),
-            "velocity": velocities[i],
+            "velocity": velocities[i]/1e2,
             "mass": 1
         }
 

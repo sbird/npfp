@@ -33,9 +33,9 @@ def plot_xy(part_data, alpha):
     # plt.plot(pos_x, pos_z, marker = '.', color = 'black', alpha = alpha, lw = 0)
     # plt.xlim(-boxsize/2, boxsize/2)
     # plt.ylim(-boxsize/2, boxsize/2)
-    plt.set_xlabel('x (kpc)')
-    plt.set_ylabel('y (kpc)')
-    plt.title(f't = {t} Gyrs') #printing the time
+    plt.xlabel('x (kpc)')
+    plt.ylabel('y (kpc)')
+    plt.title(f't = {round(t, 2)} Gyrs') #printing the time
     plt.tight_layout()
     # plt.show()
     return None
@@ -55,7 +55,7 @@ def update(i):
         else:
             acc_ar = np.concatenate([acc_ar, acc_this_part])
     global t
-    dt = get_timestep(ipd, acc_ar, c=1e-4) #this is the timestep for next iteration
+    dt = get_timestep(ipd, acc_ar, c=1e11) #this is the timestep for next iteration
     t = t + dt * 3.17098e-8 * 1e-9 #this would be the updated time
     pids = list(part_data.keys())
     for pid in pids:
@@ -75,9 +75,16 @@ def update(i):
 N = 100
 boxsize = 50 #This is the boxsize
 part_data = gen_particle_plummer(N) #this line generates the particles
+
+vel_arr = np.array([part_data[pid]["velocity"] for pid in part_data.keys()])
+vel_mag = np.linalg.norm(vel_arr, axis = 1)
+print(f'Velocity has a median of {np.median(vel_mag)}, 5% = {np.percentile(vel_mag, 5)} and 95% = {np.percentile(vel_mag, 95)}')
+
 tree = Octree([0,0,0], boxsize) # Initializing the Octree class
 tree.insert_particles(part_data, get_mean_ip_dist(part_data)) # Making a tree with initial particles
 
+
+# breakpoint() 
 # Let us evolve the system now
 
 ipd = get_mean_ip_dist(part_data) #This is the mean interparticle distance
@@ -92,7 +99,7 @@ i = 0
 t = 0
 plt.style.use('dark_background')
 fig, ax = plt.subplots(figsize = (5, 5))
-frames = 20
+frames = 100
 ani = animation.FuncAnimation(fig=fig, func=update, frames=frames, interval=10)
 ani.save('animation.gif', writer='pillow', fps=10)
 
