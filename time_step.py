@@ -37,7 +37,7 @@ def get_timestep(ipd, acc,c=1):
     # print(acc_mag)
     # acc = 1#Decide on how to input acceleration
     dt = c * np.sqrt(np.mean(ipd) / max(acc_mag))  # This is the relation for timestep
-    return dt #return timestep for the next iteration of kdk
+    return dt * 10**3 #return timestep for the next iteration of kdk in seconds
 
 
 def check_convergence():

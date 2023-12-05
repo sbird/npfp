@@ -21,10 +21,11 @@ def kick(particle_data, acc, dt):
         Kicks the particles velocity one step forward. 
         K(dt/2) = (x_t, v_t) --> (x_t, v_t+1) 
       [PS]: updating it with acc as input to the code
+      dt SHOULD BE IN SECONDS
       """
     # print("vel:", particle_data["velocity"])
     # print("acc:", acc*dt) 
-    particle_data["velocity"] += np.array(acc*dt)
+    particle_data["velocity"] += np.array(acc*dt) * 3.24078e-17 #This is in (km/s)
     return particle_data
 
 
@@ -33,11 +34,11 @@ def drift(particle_data, dt):
         Input is a single particle dictionary. expects the keys 'position', 'velocity', and 'mass'.
         Drifts the particles position one step forward. 
         K(dt/2) = (x_t, v_t) --> (x_t, v_t+1) 
-      
-        """
+        dt SHOULD BE IN SECONDS  
+    """
     # acc = gforce(particle_data["id"])/particle_data["mass"]
     # print("vel:",particle_data["velocity"]*dt)
-    particle_data["position"] += particle_data["velocity"]*dt
+    particle_data["position"] += particle_data["velocity"] * dt * 3.24078e-17 #This gives out values in kpc
     return particle_data
 
 def kdk(particle_data, acc, dt):
