@@ -24,7 +24,8 @@ def kick(particle_data, acc, dt):
       dt SHOULD BE IN SECONDS
       """
     # print("vel:", particle_data["velocity"])
-    # print("acc:", acc*dt) 
+    # vel_no_update = particle_data["velocity"]
+    # print(f"%change in velocity is {100 * np.round((np.array(acc*dt) * 3.24078e-17 /vel_no_update), 2)}") 
     particle_data["velocity"] += np.array(acc*dt) * 3.24078e-17 #This is in (km/s)
     return particle_data
 

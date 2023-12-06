@@ -24,17 +24,18 @@ def print_OctreeNode(node, depth = 0):
 
 def plot_xy(part_data, alpha):
     global t
-    pos_ar = np.array([part_data[pid]["position"] for pid in part_data.keys()])
+    pos_ar = np.array([part_data[pid]["position"] for pid in part_data.keys()])*1e3 #in pc
     pos_x = pos_ar[:, 0]
     pos_y = pos_ar[:, 1]
     pos_z = pos_ar[:, 2]
     plt.clf()
     plt.plot(pos_x, pos_y, marker = '.', color = 'white', alpha = alpha, lw = 0, ms = 1)
     # plt.plot(pos_x, pos_z, marker = '.', color = 'black', alpha = alpha, lw = 0)
-    # plt.xlim(-boxsize/2, boxsize/2)
-    # plt.ylim(-boxsize/2, boxsize/2)
-    plt.xlabel('x (kpc)')
-    plt.ylabel('y (kpc)')
+    lim = 1.25 * max(np.append(np.abs(pos_x), np.abs(pos_y)))
+    plt.xlim(-lim, lim)
+    plt.ylim(-lim, lim)
+    plt.xlabel('x (pc)')
+    plt.ylabel('y (pc)')
     plt.title(f't = {round(t, 2)} Gyrs') #printing the time
     plt.tight_layout()
     # plt.show()
@@ -55,7 +56,8 @@ def update(i):
         else:
             acc_ar = np.concatenate([acc_ar, acc_this_part])
     global t
-    dt = get_timestep(ipd, acc_ar, c=1e11) #this is the timestep for next iteration
+    dt = get_timestep(ipd, acc_ar, c=1e13) #this is the timestep for next iteration
+    # print(f'Change in time is {dt* 3.17098e-8 * 1e-9} Gyrs')
     t = t + dt * 3.17098e-8 * 1e-9 #this would be the updated time
     pids = list(part_data.keys())
     for pid in pids:
@@ -72,8 +74,8 @@ def update(i):
 
 
 
-N = 100
-boxsize = 50 #This is the boxsize
+N = int(100)
+boxsize = 500e-3 #This is the boxsize
 part_data = gen_particle_plummer(N) #this line generates the particles
 
 vel_arr = np.array([part_data[pid]["velocity"] for pid in part_data.keys()])
@@ -99,7 +101,7 @@ i = 0
 t = 0
 plt.style.use('dark_background')
 fig, ax = plt.subplots(figsize = (5, 5))
-frames = 100
+frames = 1000
 ani = animation.FuncAnimation(fig=fig, func=update, frames=frames, interval=10)
 ani.save('animation.gif', writer='pillow', fps=10)
 
