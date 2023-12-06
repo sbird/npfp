@@ -24,9 +24,9 @@ def kick(particle_data, acc, dt):
       dt SHOULD BE IN SECONDS
       """
     # print("vel:", particle_data["velocity"])
-    # vel_no_update = particle_data["velocity"]
-    # print(f"%change in velocity is {100 * np.round((np.array(acc*dt) * 3.24078e-17 /vel_no_update), 2)}") 
-    particle_data["velocity"] += np.array(acc*dt) * 3.24078e-17 #This is in (km/s)
+    # vel_no_update = np.array(particle_data["velocity"])
+    # print(f"%change in velocity is {100 * np.round((np.array(acc*dt) * 3.24078e-14 /vel_no_update), decimals= 4)}") 
+    particle_data["velocity"] += np.array(acc*dt) * 3.24078e-14 #This is in (km/s)
     return particle_data
 
 
@@ -39,7 +39,10 @@ def drift(particle_data, dt):
     """
     # acc = gforce(particle_data["id"])/particle_data["mass"]
     # print("vel:",particle_data["velocity"]*dt)
-    particle_data["position"] += particle_data["velocity"] * dt * 3.24078e-17 #This gives out values in kpc
+    # pos_no_update = np.array(particle_data["position"])
+    # vel = particle_data["velocity"]
+    # print(f"%change in position is {100 * np.round((np.array(vel * dt *  3.24078e-14)  /pos_no_update), decimals= 4)}")
+    particle_data["position"] += particle_data["velocity"] * dt *  3.24078e-14 #This gives out values in kpc
     return particle_data
 
 def kdk(particle_data, acc, dt):

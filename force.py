@@ -1,8 +1,8 @@
 import numpy as np
 # Define the gravitational constant (G) in the specified units
 # G = 6.6e-11  # Units: SI
-G = 4.3e-6 #kpc (km/s)^2 per Msun
-softening = 0.001  # Softening length to prevent singularities
+G = 4.3e-3 #pc (km/s)^2 per Msun
+softening = 0.01  # Softening length to prevent singularities
 
 # Function to compute gravitational force between two particles
 def gforce(particle1, particle2):
